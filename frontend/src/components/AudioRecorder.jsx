@@ -3,6 +3,7 @@ import { Button, Box, CircularProgress, Snackbar, Alert, Typography, LinearProgr
 import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
 import UploadIcon from '@mui/icons-material/Upload';
+import { API_ENDPOINTS } from '../config';
 
 const AudioRecorder = ({ onTranscriptionComplete }) => {
     const [isRecording, setIsRecording] = useState(false);
@@ -110,7 +111,7 @@ const AudioRecorder = ({ onTranscriptionComplete }) => {
             formData.append('file', audioFile);
 
             // Upload to backend
-            const response = await fetch('http://localhost:8000/upload-audio', {
+            const response = await fetch(API_ENDPOINTS.UPLOAD_AUDIO, {
                 method: 'POST',
                 body: formData,
             });
@@ -139,11 +140,11 @@ const AudioRecorder = ({ onTranscriptionComplete }) => {
             let errorMessage = 'Transcription failed';
 
             if (error.message.includes('Failed to fetch')) {
-                errorMessage = 'Cannot connect to server. Please make sure the backend is running at http://localhost:8000';
+                errorMessage = 'Cannot connect to server. Please make sure the backend is running.';
             } else if (error.message.includes('File must be an audio file')) {
                 errorMessage = 'Invalid audio format. Please try recording again.';
             } else if (error.message.includes('Transcription failed')) {
-                errorMessage = 'AssemblyAI transcription failed. Please check your API key and account credits.';
+                errorMessage = 'Deepgram transcription failed. Please check your API key and account credits.';
             } else {
                 errorMessage = `Transcription failed: ${error.message}`;
             }

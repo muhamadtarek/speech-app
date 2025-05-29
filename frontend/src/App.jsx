@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Paper, Divider, Chip, Alert } from '@mui/material';
 import AudioRecorder from './components/AudioRecorder';
+import { API_ENDPOINTS } from './config';
 
 function App() {
   const [transcripts, setTranscripts] = useState([]);
@@ -15,7 +16,7 @@ function App() {
   const fetchTranscripts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/transcripts');
+      const response = await fetch(API_ENDPOINTS.TRANSCRIPTS);
       if (response.ok) {
         const data = await response.json();
         setTranscripts(data);
